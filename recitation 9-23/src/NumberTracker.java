@@ -1,4 +1,6 @@
-
+/**
+ * Instances of this class process a stream of numbers, filtering out positive numbers and maintaining various metrics.
+ */
 public class NumberTracker {
 
     private int max, min;
