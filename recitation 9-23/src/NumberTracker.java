@@ -66,7 +66,7 @@ public class NumberTracker {
             intOfLongestRun = val;
         }
 
-        previousVal = val;
+        previousVal = val; // anyone find a cleaner way to do this?
     }
 
 

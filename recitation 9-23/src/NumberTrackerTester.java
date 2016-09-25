@@ -13,7 +13,7 @@ public class NumberTrackerTester {
 
             if (input.startsWith("q")) {
                 System.out.println("Goodbye.");
-                System.exit(0);
+                System.exit(0); // a break would have the same effect, but this is slightly clearer
             }
 
             int inputAsInt = Integer.parseInt(input);
