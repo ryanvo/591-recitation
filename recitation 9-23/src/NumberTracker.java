@@ -2,11 +2,15 @@
 public class NumberTracker {
 
     private int max, min;
-    private int longestRun = 0, currentRun = 1, previousVal = -1, intOfLongestRun;
+    private int longestRun, currentRun, previousVal, intOfLongestRun;
 
     public NumberTracker() {
         max = -1; // okay because only positive numbers are accepted
         min = Integer.MAX_VALUE;
+
+        longestRun = 0;
+        currentRun = 1;
+        previousVal = -1; // set to -ive as a hacky boolean flag to indicate that it hasn't been initialized
     }
 
 
