@@ -75,7 +75,7 @@ public class TwitterScraper {
 
 
         /* write to CSV */
-        File file = new File("cit-591-recitation-9/output_data1.csv");
+        File file = new File("YOUR_OUTPUT_DATA.csv");
         try(PrintWriter writer = new PrintWriter(file)) {
             for (String cleanTweet : cleanedTweets) {
                 writer.write(cleanTweet);

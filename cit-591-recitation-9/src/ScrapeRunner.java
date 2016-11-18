@@ -4,10 +4,10 @@ public class ScrapeRunner {
         
         /* Implement cleanTweet method */
         TweetCleaner cleaner = new TweetCleaner();
-        TwitterScraper parser = new TwitterScraper();
+        TwitterScraper scraper = new TwitterScraper();
 
         /* this will create a csv file above the src dir */
-        parser.run(cleaner);
+        scraper.run(cleaner);
 
     }
 
