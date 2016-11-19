@@ -9,6 +9,7 @@ public class ScrapeRunner {
         /* this will create a csv file above the src dir */
         scraper.run(cleaner);
 
+
     }
 
 }
