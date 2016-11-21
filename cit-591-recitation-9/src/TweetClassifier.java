@@ -22,22 +22,25 @@ public class TweetClassifier {
 
     private void run() {
 
-        /**
-         * Create a classifying job
-         */
-        /*
+
+
+        Classifiers classifiers = service.getClassifiers().execute();
+        System.out.println(classifiers);
+    }
+
+    /**
+     * Create a classifying job
+     */
+    void dosome() {
+
         File trainingData = new File("cit-591-recitation-9/data_larger.csv");
         if (!trainingData.canRead()) {
             System.out.println("cant read");
             System.exit(0);
         }
         Classifier classifier = service.createClassifier("tweet-sentiment-question", "en",
-        trainingData).execute();
+                trainingData).execute();
         System.out.println(classifier);
-        */
-
-        Classifiers classifiers = service.getClassifiers().execute();
-        System.out.println(classifiers);
     }
 
 }
