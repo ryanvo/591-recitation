@@ -1,3 +1,5 @@
+package twitter;
+
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -11,20 +13,20 @@ import java.util.List;
 
 public class TwitterScraper {
 
-    final static String CONSUMER_KEY = "qyC2A2qwQAbHLkIDfZok8YrdY";
-    final static String CONSUMER_SECRET = "YsDr7Wol8Ou21CEedMi1UEBtkjDZtkgo1A88TVoGAgVNlLNU9D";
-    final static String ACCESS_TOKEN = "37344764-niU57qKXKNHcrI5gt5kVytRlAC0Uk0i0uswiMY60L";
-    final static String ACCESS_TOKEN_SECRET = "n4y0jt7p9mKHNScBNgbj97cdnlQYk56OzQZz4IubckzWs";
+    private final TwitterApiConfig config;
 
+    public TwitterScraper(TwitterApiConfig config) {
+        this.config = config;
+    }
 
 
     public void run(TweetCleaner cleaner) {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(CONSUMER_KEY)
-                .setOAuthConsumerSecret(CONSUMER_SECRET)
-                .setOAuthAccessToken(ACCESS_TOKEN)
-                .setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+                .setOAuthConsumerKey(config.CONSUMER_KEY)
+                .setOAuthConsumerSecret(config.CONSUMER_SECRET)
+                .setOAuthAccessToken(config.ACCESS_TOKEN)
+                .setOAuthAccessTokenSecret(config.ACCESS_TOKEN_SECRET);
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
         System.out.println("Logged in successfully...");
@@ -32,7 +34,7 @@ public class TwitterScraper {
         /**
          * Change search phrase here
          */
-        String SEARCH_PHRASE_HAPPY = 	":)";
+        String SEARCH_PHRASE_HAPPY = ":)";
         String SEARCH_PHRASE_SAD = 	":)";
         String SEARCH_PHRASE_QUESTION = "?";
 
@@ -43,7 +45,7 @@ public class TwitterScraper {
 
             System.out.println("Scraping tweets with :)...");
 
-            for (Status tweet : queryTweets(SEARCH_PHRASE_HAPPY, "happy", 100, currentDataSet, twitter)) {
+            for (Status tweet : queryTweets(SEARCH_PHRASE_HAPPY, "happy", NUM_OF_RESULTS, currentDataSet, twitter)) {
                 String tweetText = tweet.getText();
                 currentDataSet.add(cleaner.cleanTweet(tweetText) + ",happy");
                 System.out.println("Happy: " + currentDataSet.get(currentDataSet.size()-1));
@@ -51,7 +53,7 @@ public class TwitterScraper {
             }
 
             System.out.println("Scraping tweets with :(...");
-            for (Status tweet : queryTweets(SEARCH_PHRASE_SAD, "sad", 100, currentDataSet,
+            for (Status tweet : queryTweets(SEARCH_PHRASE_SAD, "sad", NUM_OF_RESULTS, currentDataSet,
                     twitter)) {
                 String tweetText = tweet.getText();
                 currentDataSet.add(cleaner.cleanTweet(tweetText) + ",sad");
@@ -60,7 +62,7 @@ public class TwitterScraper {
             }
 
             System.out.println("Scraping tweets with ?...");
-            for (Status tweet : queryTweets(SEARCH_PHRASE_QUESTION, "question", 100, currentDataSet,
+            for (Status tweet : queryTweets(SEARCH_PHRASE_QUESTION, "question", NUM_OF_RESULTS, currentDataSet,
                     twitter)) {
                 String tweetText = tweet.getText();
                 currentDataSet.add(cleaner.cleanTweet(tweetText) + ",question");
@@ -73,12 +75,8 @@ public class TwitterScraper {
             System.exit(-1);
         }
 
-        System.out.println("Finshied scraiping wteets, now right to fill?");
-
+        System.out.printf("Finished scraping tweets... ");
         writeToCsv(currentDataSet);
-        for (String dataEntry : currentDataSet) {
-            System.out.println(dataEntry);
-        }
     }
 
     private List<Status> queryTweets(String searchPhrase, String sentiment, int numResults,
@@ -94,10 +92,10 @@ public class TwitterScraper {
         DateFormat dateFormat = new SimpleDateFormat("-HH:mm:ss-MM-dd-yyyy");
         Date date = new Date();
 
-        String fileName = "OUTPUT_DATA" + dateFormat.format(date).toString() + ".csv";
+        String fileName = "OUTPUT_DATA" + dateFormat.format(date) + ".csv";
         System.out.println(fileName);
-//        File file = new File("OUTPUT_DATA" + dateFormat.format(date).toString() + ".csv");
-        File file = new File("OUTPUT_DATA" + dateFormat.format(date) + ".csv");
+
+        File file = new File(fileName);
         try(PrintWriter writer = new PrintWriter(file)) {
             for (String cleanTweet : cleanedTweets) {
                 writer.println(cleanTweet);
